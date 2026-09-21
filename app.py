@@ -24,7 +24,7 @@ volunteer_supabase=create_client(supa_url, secret_key)
 
 # Navigation Sidebar
 
-st.sidebar.title("Snack Track Navi")
+st.sidebar.title("Snack Track")
 
 page = st.sidebar.radio(
     "Go to:",
@@ -82,11 +82,11 @@ if page == "Store":
         # Category tabs
     all_tab, chips_tab, drinks_tab, ramen_tab, other_tab = st.tabs(
             [
-                "🛍️ All",
-                "🥔 Chips & Snacks",
-                "🥤 Drinks",
-                "🍜 Ramen & Noodles",
-                "🍪 Bars & Other"
+                "✮⋆˙🛍˙⋆✮ All",
+                "🍪🥨🍿 Chips & Snacks",
+                "𐃯 Drinks",
+                "˚⋅ 𓐐𓎩 ‧₊˚ Ramen & Noodles",
+                "𔓐 Bars & Other"
             ]
         )
 
@@ -358,13 +358,13 @@ if page == "Store":
             # Cart total
 
             st.markdown(
-                f"### 💰 Total: ${total:.2f}"
+                f"### ˗ˋˏ$ˎˊ˗ Total: ${total:.2f}"
             )
 
             # Clear cart
 
             if st.button(
-                "🗑️ Clear Cart",
+                " 🗑 .ᐣ.ᐟ Clear Cart",
                 key="clear_student_cart"
             ):
 
@@ -375,7 +375,7 @@ if page == "Store":
 
                 # Checkout
 
-            st.subheader("💳 Checkout")
+            st.subheader("$ˎˊ˗ Checkout")
 
             customer_name = st.text_input(
                 "Enter your name:",
@@ -384,7 +384,7 @@ if page == "Store":
             )
 
             if st.button(
-                "🛍️ Place Order",
+                "✮⋆˙🛍˙⋆✮ Place Order",
                 key="place_order_button"
                 ):
 
@@ -479,7 +479,7 @@ elif page == "Volunteer Dashboard":
         st.divider()
 
         orders_tab, in_person_tab, inventory_tab= st.tabs(
-            ["📋 Orders", "🛒 In-Person Order","Inventory"]
+            ["🗎 Orders", "🛒 In-Person Order","⛟ Inventory"]
         )
 
         with orders_tab:
