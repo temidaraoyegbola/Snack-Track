@@ -57,10 +57,9 @@ if page == "Store":
             st.session_state.order_confirmation
         )
 
-        st.write("DEBUG: confirmation exists!")
-
         st.session_state.order_confirmation = None
 
+    st.title("໒꒰ྀི∩˃ ᵕ ˂∩꒱ྀི১ 09.21.26! Grand Opening!")
     st.title("AECHS Snack Track")
     st.write("Check out what's in store today! :~)")
     search = st.text_input(
