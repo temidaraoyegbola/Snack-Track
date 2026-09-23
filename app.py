@@ -545,30 +545,66 @@ elif page == "Volunteer Dashboard":
                                 f"{order['customer_name']}"
                             )
 
-                            st.write(
-                                f"**Items:** "
-                                f"{order['items_ordered']}"
-                            )
+                            st.write("**Items:**")
+                            order_items = order["items_ordered"].split(", ")
+
+                            for item_entry in order_items:
+                                col1, col2 = st.columns([5, 1])
+                                with col1:
+                                    st.write(item_entry)
+                                with col2:
+                                    if st.button(
+                                        "✕",
+                                        key=f"remove_{order['id']}_{item_entry}"
+                                    ):
+                                        result = volunteer_supabase.rpc(
+                                            "remove_order_item",
+                                        {
+                                            "order_id_input": order["id"],
+                                            "item_name_input": item_entry.rsplit(" x", 1)[0]
+                                        }
+                                    ).execute()
+                                        if result.data is True:
+                                            st.success("Item removed!")
+                                            st.rerun()
+                                        else:
+                                            st.error("Could not remove that item.")
 
                             st.caption(
                                 f"Placed: "
                                 f"{order['created_at']}"
                             )
 
-                            if st.button(
-                                "✓ Mark Ready",
-                                key=f"ready_{order['id']}"
-                            ):
+                            col1, col2 = st.columns(2)
+                            with col1:
+                                 if st.button(
+                                      "✓ Mark Ready",
+                                        key=f"ready_{order['id']}"
+                                ):
+                                      volunteer_supabase.table(
+                                           "Orders"
+                                      ).update(
+                                            {"status": "ready"}
+                                      ).eq(
+                                            "id", order["id"]
+                                      ).execute()
+                                      st.rerun()
 
-                                volunteer_supabase.table(
-                                    "Orders"
-                                ).update(
-                                    {"status": "ready"}
-                                ).eq(
-                                    "id", order["id"]
-                                ).execute()
+                            with col2:
+                                 if st.button(
+                                      "✕ Cancel",
+                                      key=f"cancel_{order['id']}"
+                                 ):
+                                      volunteer_supabase.table(
+                                           "Orders"
+                                      ).update(
+                                           {"status": "cancelled"}
+                                      ).eq(
+                                           "id", order["id"]
+                                      ).execute()
 
-                                st.rerun()
+                                      st.rerun()
+
 
 
                 # READY ORDERS
@@ -732,45 +768,62 @@ elif page == "Volunteer Dashboard":
 
             st.subheader("Current In-Person Order")
 
+            total = 0
+
             if not st.session_state.in_person_cart:
 
                 st.info("No items added yet.")
 
             else:
+               for snack, qty in list(
+                   st.session_state.in_person_cart.items()
+              ):
+                   item_data = next(
+                       (
+                           item
+                           for item in inventory_items
+                           if item["name"] == snack
+                       ),
+                       None
+                   )
 
-                total = 0
+                   if item_data and item_data["price"] is not None:
+                       item_total = item_data["price"] * qty
+                       total += item_total
 
-                for snack, qty in st.session_state.in_person_cart.items():
+                       col1, col2 = st.columns([6, 1])
 
-                    item_data = next(
-                        (
-                            item
-                            for item in inventory_items
-                            if item["name"] == snack
-                        ),
-                        None
-                    )
+                       with col1:
+                           st.write(
+                               f"**{snack}** × {qty} — "
+                               f"${item_total:.2f}"
+                           )
 
-                    if item_data and item_data["price"] is not None:
-
-                        item_total = item_data["price"] * qty
-                        total += item_total
-
-                        st.write(
-                            f"**{snack}** × {qty} — "
-                            f"${item_total:.2f}"
-                        )
-
+                       with col2:
+                           if st.button(
+                               "✕",
+                                key=f"remove_in_person_{snack}"
+                           ):
+                               del st.session_state.in_person_cart[snack]
+                               st.rerun()
 
                 # Total goes AFTER the cart loop
-                st.markdown(f"### Total: ${total:.2f}")
+                
+            st.markdown(f"### Total: ${total:.2f}")
 
-                customer_name = st.text_input(
+            if st.button(
+                    "🗑️ Clear Order",
+                    key="clear_in_person_order"
+                ):
+                    st.session_state.in_person_cart = {}
+                    st.rerun()
+
+            customer_name = st.text_input(
                     "Customer name (optional):",
                     key="in_person_customer_name"
                 )
 
-                if st.button(
+            if st.button(
                     "Submit In-Person Order",
                     type="primary"
                 ):
