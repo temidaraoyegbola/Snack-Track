@@ -4,6 +4,16 @@ from streamlit_autorefresh import st_autorefresh
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from streamlit_autorefresh import st_autorefresh
+from pathlib import Path
+
+PRODUCTS_DIR = Path("assets/products")
+
+# Load Snack Track styling
+with open("assets/snack_track.css") as f:
+    st.markdown(
+        f"<style>{f.read()}</style>",
+        unsafe_allow_html=True
+    )
 
 current_time = datetime.now(ZoneInfo("America/Chicago")).time()
 afterschool_time = datetime.strptime("14:30", "%H:%M").time()
@@ -59,7 +69,6 @@ if page == "Store":
 
         st.session_state.order_confirmation = None
 
-    st.title("໒꒰ྀི∩˃ ᵕ ˂∩꒱ྀི১ 09.21.26! Grand Opening!")
     st.title("AECHS Snack Track")
     st.write("Check out what's in store today! :~)")
     search = st.text_input(
@@ -113,31 +122,42 @@ if page == "Store":
 
             for item in filtered_items:
 
-                col1, col2 = st.columns([3, 1])
+                with st.container():
+
+                    with st.container(
+                        key=f"snack-card-{key_prefix}{item['name']}"
+                        ):
+
+                        col1, col2 = st.columns([1, 1])
 
 
                 with col1:
+                     # Product image
+                    if item["name"] == "Sparkling Ice: Orange Mango":
+                         image_path = PRODUCTS_DIR / "sparkling_orange.png"
+                         
+                         st.image(
+                             str(image_path),
+                             width=400
+                         )
 
+
+                with col2:
                     st.markdown(
                         f"### **{item['name']}**"
                     )
 
                     if item["price"] is None:
-
                         st.write("Price: Not set")
-
+                    
                     else:
-
                         st.write(
                             f"Price: ${item['price']:.2f}"
                         )
-
-                    st.caption(
-                        f"In Stock: {item['stock_quantity']} units"
-                    )
-
-
-                with col2:
+                    
+                        st.caption(
+                            f"In Stock: {item['stock_quantity']} units"
+                        )
 
                     # Afterschool item before 2:30 PM
                     if (
@@ -188,7 +208,6 @@ if page == "Store":
                             )
 
                             st.rerun()
-
 
                 st.divider()
 
@@ -291,7 +310,12 @@ if page == "Store":
                     st.session_state.cart[snack] = stock
                     qty = stock
 
-                item_total = price * qty
+                # Special pricing for Ice Pops
+                if snack.strip().lower() == "flavor ice pops":
+                     item_total = 0.50 * max(1, qty - 1)
+                else:
+                     item_total = price * qty
+                     
                 total += item_total
 
                 col1, col2, col3, col4 = st.columns(
