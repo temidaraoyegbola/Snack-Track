@@ -1,0 +1,188 @@
+/* =========================================
+   SNACK TRACK — GLOBAL THEME
+   ========================================= */
+
+/* Main app background */
+/* =========================================
+   DREAMY SNACK TRACK BACKGROUND
+   ========================================= */
+
+   /*Background*/
+.stApp {
+    background-color: #9DD8F5;
+    min-height: 100vh;
+}
+
+/* Main text */
+.stApp,
+.stApp p,
+.stApp label {
+    color: white;
+}
+
+/* Main content area */
+.block-container {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    max-width: 1200px;
+}
+
+/*Buttons*/
+
+.stButton > button {
+    background-color: white;
+    color: #5E8FB5 !important;
+    border: 2px solid white;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.stButton > button p {
+    color: #5E8FB5 !important;
+}
+
+.stButton > button:hover {
+    background-color: #78bdf0;
+    color: white !important;
+    border-color: white;
+}
+
+.stButton > button:hover p {
+    color: white !important;
+}
+
+/* Button hover */
+.stButton > button:hover {
+    background-color: #78bdf0;
+    color: white;
+    border-color: white;
+}
+
+/* =========================================
+   SNACK TRACK TYPOGRAPHY
+   ========================================= */
+
+/* Main page headings */
+h1, h2, h3 {
+    font-family: "Poppins", sans-serif;
+    color: #526A85;
+    letter-spacing: 0.03em;
+}
+
+/* Main title */
+h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    text-align: center;
+    letter-spacing: 0.08em;
+}
+
+/* Section headings */
+h2 {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+/* Smaller headings */
+h3 {
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+/* =========================================
+   PRODUCT CARDS
+   ========================================= */
+
+[class*="st-key-snack-card-"] {
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 2px solid #B9DDF5;
+    border-radius: 24px;
+
+    padding: 0.8rem 1.5rem;
+    margin-bottom: 0.8rem;
+
+    box-shadow:
+        0 6px 16px rgba(82, 106, 133, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Lift the card slightly when hovering */
+
+[class*="st-key-snack-card-"]:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(82, 106, 133, 0.18);
+}
+
+
+/* Product name */
+
+[class*="st-key-snack-card-"] h3 {
+    color: #526A85;
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+}
+
+
+/* Product information */
+
+[class*="st-key-snack-card-"] p {
+    color: #526A85;
+}
+
+
+/* Stock information */
+
+[class*="st-key-snack-card-"] small {
+    color: #7898B5;
+}
+
+/* =========================================
+   PRODUCT CARD BUTTONS
+   ========================================= */
+
+[class*="st-key-snack-card-"] .stButton > button {
+    background: #9DD8F5;
+    color: white !important;
+
+    border: 2px solid #9DD8F5;
+    border-radius: 20px;
+
+    padding: 0.45rem 1rem;
+
+    font-weight: 600;
+
+    transition: all 0.2s ease;
+}
+
+
+/* Make the button text blue/white correctly */
+
+[class*="st-key-snack-card-"] .stButton > button p {
+    color: white !important;
+}
+
+
+/* Hover */
+
+[class*="st-key-snack-card-"] .stButton > button:hover {
+    background: #78BDF0;
+    border-color: #78BDF0;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(82, 106, 133, 0.18);
+}
+
+
+[class*="st-key-snack-card-"] .stButton > button:hover p {
+    color: white !important;
+}
+
